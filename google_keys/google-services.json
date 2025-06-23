@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "127381195065",
+    "project_id": "splitfy-4e743",
+    "storage_bucket": "splitfy-4e743.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127381195065:android:0470ae3616df7a89aec0e8",
+        "android_client_info": {
+          "package_name": "com.zmao.splitfy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127381195065-k0upd5aurohoer76vaefmuqivj1v0m5d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zmao.splitfy",
+            "certificate_hash": "edbc46e493840e17a3ffacf9e888b5920eb52077"
+          }
+        },
+        {
+          "client_id": "127381195065-6a4qjfvb65k119obncl96jlnhaf7u8gg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGSanhLndfxA2prB5uXmFeKl8v4wk5V8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127381195065-6a4qjfvb65k119obncl96jlnhaf7u8gg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
