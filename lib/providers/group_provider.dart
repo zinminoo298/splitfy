@@ -53,25 +53,56 @@ final userGroupsProvider = StreamProvider((ref) {
       snapshot.docs.map((doc) => Group.fromFirestore(doc)).toList());
 });
 
-// Repository for group operations
+// lib/providers/group_provider.dart (updated)
 class GroupRepository {
   final FirebaseFirestore _firestore;
 
   GroupRepository({FirebaseFirestore? firestore})
       : _firestore = firestore ?? FirebaseFirestore.instance;
 
-  Future<void> createGroup(String name, List<String> invitedUserIds) async {
+  // Updated to return the group ID
+  Future<String> createGroup(String name, List<String> invitedUserIds) async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+    if (user == null) throw Exception('User not authenticated');
 
     // Create a new group with the current user + invited users
-    List<String> memberIds = [user.uid, ...invitedUserIds];
+    List<String> memberIds = [user.uid];
 
-    await _firestore.collection('groups').add({
+    final docRef = await _firestore.collection('groups').add({
       'name': name,
       'memberIds': memberIds,
       'createdBy': user.uid,
       'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    return docRef.id;
+  }
+
+  // Method to join a group
+  Future<void> joinGroup(String groupId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) throw Exception('User not authenticated');
+
+    // Get the group
+    final groupDoc = await _firestore.collection('groups').doc(groupId).get();
+    if (!groupDoc.exists) {
+      throw Exception('Group not found');
+    }
+
+    final data = groupDoc.data();
+    if (data == null) throw Exception('Group data is null');
+
+    // Check if the user is already a member
+    final List<String> memberIds = List<String>.from(data['memberIds'] ?? []);
+    if (memberIds.contains(user.uid)) {
+      // User is already a member, no need to add
+      return;
+    }
+
+    // Add user to the group
+    memberIds.add(user.uid);
+    await _firestore.collection('groups').doc(groupId).update({
+      'memberIds': memberIds,
     });
   }
 }
